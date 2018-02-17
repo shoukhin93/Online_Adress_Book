@@ -19,5 +19,6 @@ from adress_book import views
 
 urlpatterns = [
     path('', views.registration, name='registration'),
+    path('addContact/', views.add_contact, name='Add Contact'),
     path('admin/', admin.site.urls),
 ]

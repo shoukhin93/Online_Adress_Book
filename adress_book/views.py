@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from adress_book.forms import UserRegistration
+from adress_book.forms import UserRegistration, ContactAdd
 
 
 # Create your views here.
@@ -13,3 +13,14 @@ def registration(request):
             user.save()
 
     return render(request, 'registration.html')
+
+
+def add_contact(request):
+    if request.method == 'POST':
+        contact_info = ContactAdd(data=request.POST)
+
+        if contact_info.is_valid():
+
+            contact_info.save()
+
+    return render(request, 'add_contact.html')
