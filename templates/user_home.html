@@ -9,8 +9,61 @@
     <h2>Welcome {{ user.username }}</h2>
     <a href="logout/">logout</a>
 
+    {% comment %}{% if users %}
+        {{ users|length }}
+        {% for user in users %}
+            {{ user.contactinfo_set.all|length }}
+            {% for contact_info in user.contactinfo_set.all %}
+                {% for phone_number in contact_info.mobilenumber_set.all %}
+                    <p>{{ phone_number.phone_number }}</p> <br>
+                {% endfor %}
+            {% endfor %}
+        {% endfor %}
+
+    {% endif %}{% endcomment %}
+
+    {% if user %}
+        <br>
+
+        <table>
+            <thead>
+            <th>Serial</th>
+            <th>Full Name</th>
+            <th>Nick Name</th>
+            <th>Phone number</th>
+            <th>Address</th>
+            <th>Date of Birth</th>
+            </thead>
+            <tbody>
+
+            {% for contact_info in user.contactinfo_set.all %}
+                <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ contact_info.full_name }}</td>
+                <td>{{ contact_info.nick_name }}</td>
+
+                <td>
+                    {% for phone_number in contact_info.mobilenumber_set.all %}
+                        {{ phone_number.phone_number }}<br>
+                    {% endfor %}
+
+                </td>
+
+                <td>{{ contact_info.address }}</td>
+                <td>{{ contact_info.date_of_birth }}</td>
+
+            {% endfor %}
+            </tr>
+
+            </tbody>
+
+        </table>
+
+
+    {% endif %}
+
 {% else %}
-    <h2>Please <a href="login/">login</a>  or <a href="registration/">register</a></h2>
+    <h2>Please <a href="login/">login</a> or <a href="registration/">register</a></h2>
 {% endif %}
 
 

@@ -3,12 +3,22 @@ from adress_book.forms import UserRegistration, ContactAdd, MobileNumberSave
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
+from adress_book.models import ContactInfo, MobileNumber
+from django.contrib.auth.models import User
 
 
 # Create your views here.
 
 def index(request):
-    return render(request, 'user_home.html')
+
+    if request.user.is_authenticated:
+
+        contacts = ContactInfo.objects.all()
+        user = User.objects.get(username__exact=request.user.username)
+        return render(request, 'user_home.html', context={'user': user})
+
+    else:
+        return render(request, 'user_home.html')
 
 
 def user_login(request):
