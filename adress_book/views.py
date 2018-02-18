@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from adress_book.forms import UserRegistration, ContactAdd
+from adress_book.forms import UserRegistration, ContactAdd, MobileNumberSave
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
@@ -48,10 +48,32 @@ def user_registration(request):
 
 
 def add_contact(request):
+    print(request.user)
+
     if request.method == 'POST':
-        contact_info = ContactAdd(data=request.POST)
 
-        if contact_info.is_valid():
-            contact_info.save()
+        if request.user.is_authenticated:
 
-    return render(request, 'add_contact.html')
+            contact_info = ContactAdd(request.POST)
+
+            if contact_info.is_valid():
+
+                info = contact_info.save(commit=False)
+                info.user_name = request.user
+                info.save()
+
+                phone = MobileNumberSave(request.POST)
+
+                phone_number = phone.save(commit=False)
+                phone_number.phone_id = info
+                phone_number.save()
+
+                return HttpResponseRedirect(reverse('index'))
+            else:
+                print(contact_info.errors)
+                return HttpResponse("invalid data!")
+
+        else:
+            return HttpResponse("u r not logged in")
+    else:
+        return render(request, 'add_contact.html')
