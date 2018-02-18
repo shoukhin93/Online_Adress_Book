@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Phone Number</title>
+</head>
+<body>
+{% if info %}
+    <h3>updating number for {{ info.phone_id.user_name.username }}</h3>
+
+    <form method="post">
+    {% csrf_token %}
+    <input type="text" name = "phone_number" value="{{ info.phone_number }}">
+    <input type="submit" value="Update">
+    </form>
+
+{% endif %}
+</body>
+</html>

@@ -108,17 +108,33 @@ def add_phone_number(request, id):
     contact_info = ContactInfo.objects.get(id=id)
 
     if request.method == "POST":
-
         number = MobileNumberSave(request.POST)
 
-        phone_number = number.save(commit=False)
-        phone_number.phone_id = contact_info
-        phone_number.save()
+        if number.is_valid():
+            phone_number = number.save(commit=False)
+            phone_number.phone_id = contact_info
+            phone_number.save()
 
     return render(request, 'add_phone_number.html', context={'contact_info': contact_info})
 
 
 def delete_phone_number(request, id):
+    """ To delete a particular phone number"""
 
     MobileNumber.objects.get(id=id).delete()
     return HttpResponseRedirect(reverse('index'))
+
+
+def update_phone_number(request, id):
+    """To update a particular phone number"""
+
+    info = MobileNumber.objects.get(id=id)
+
+    if request.method == "POST":
+        updated_info = MobileNumberSave(request.POST)
+
+        if updated_info.is_valid():
+            MobileNumberSave(request.POST, instance=info).save()
+            return HttpResponseRedirect(reverse('index'))
+
+    return render(request, 'edit_phone.html', context={'info' : info})
