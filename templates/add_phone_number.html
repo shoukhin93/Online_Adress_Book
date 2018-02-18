@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Phone Number</title>
+</head>
+<body>
+
+{% if contact_info %}
+    <h3>Adding number to {{ contact_info.user_name.username }}</h3>
+{% endif %}
+
+<form method="post">
+
+    {% csrf_token %}
+    <input type="text" name="phone_number" placeholder="enter phone number">
+    <input type="submit" value="Add">
+</form>
+</body>
+</html>

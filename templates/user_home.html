@@ -7,24 +7,11 @@
 <body>
 {% if user.is_authenticated %}
     <h2>Welcome {{ user.username }}</h2>
+    <a href="addContact//">add contact</a>
     <a href="logout/">logout</a>
-
-    {% comment %}{% if users %}
-        {{ users|length }}
-        {% for user in users %}
-            {{ user.contactinfo_set.all|length }}
-            {% for contact_info in user.contactinfo_set.all %}
-                {% for phone_number in contact_info.mobilenumber_set.all %}
-                    <p>{{ phone_number.phone_number }}</p> <br>
-                {% endfor %}
-            {% endfor %}
-        {% endfor %}
-
-    {% endif %}{% endcomment %}
 
     {% if user %}
         <br>
-
         <table>
             <thead>
             <th>Serial</th>
@@ -44,9 +31,9 @@
 
                 <td>
                     {% for phone_number in contact_info.mobilenumber_set.all %}
-                        {{ phone_number.phone_number }}<br>
+                       <br> {{ phone_number.phone_number }}
                     {% endfor %}
-
+                    <a href="addPhone/{{ contact_info.id }}/">add</a>
                 </td>
 
                 <td>{{ contact_info.address }}</td>
@@ -54,12 +41,8 @@
 
             {% endfor %}
             </tr>
-
             </tbody>
-
         </table>
-
-
     {% endif %}
 
 {% else %}
