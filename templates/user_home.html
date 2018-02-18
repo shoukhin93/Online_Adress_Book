@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+{% if user.is_authenticated %}
+    <h2>Welcome {{ user.username }}</h2>
+
+{% else %}
+    <h2>Please <a href="login/">login</a>  or <a href="registration/">register</a></h2>
+{% endif %}
+
+
+</body>
+</html>

@@ -1,9 +1,35 @@
 from django.shortcuts import render
 from adress_book.forms import UserRegistration, ContactAdd
+from django.contrib.auth import authenticate, login, logout
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 
 
 # Create your views here.
-def registration(request):
+
+def index(request):
+    return render(request, 'user_home.html')
+
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            login(request, user)
+            return HttpResponseRedirect(reverse('index'))
+
+        else:
+            return HttpResponse("invalid username or password")
+
+    else:
+        return render(request, 'login.html')
+
+
+def user_registration(request):
     if request.method == 'POST':
         registration_form = UserRegistration(data=request.POST)
 
@@ -20,7 +46,6 @@ def add_contact(request):
         contact_info = ContactAdd(data=request.POST)
 
         if contact_info.is_valid():
-
             contact_info.save()
 
     return render(request, 'add_contact.html')
