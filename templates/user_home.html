@@ -7,6 +7,7 @@
 <body>
 {% if user.is_authenticated %}
     <h2>Welcome {{ user.username }}</h2>
+    <a href="logout/">logout</a>
 
 {% else %}
     <h2>Please <a href="login/">login</a>  or <a href="registration/">register</a></h2>

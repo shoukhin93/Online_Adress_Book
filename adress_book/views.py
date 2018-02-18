@@ -12,6 +12,7 @@ def index(request):
 
 
 def user_login(request):
+    """ Method to get a user logged in"""
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -27,6 +28,11 @@ def user_login(request):
 
     else:
         return render(request, 'login.html')
+
+
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('index'))
 
 
 def user_registration(request):
