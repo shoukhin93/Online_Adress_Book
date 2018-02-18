@@ -116,3 +116,9 @@ def add_phone_number(request, id):
         phone_number.save()
 
     return render(request, 'add_phone_number.html', context={'contact_info': contact_info})
+
+
+def delete_phone_number(request, id):
+
+    MobileNumber.objects.get(id=id).delete()
+    return HttpResponseRedirect(reverse('index'))

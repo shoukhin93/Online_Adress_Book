@@ -24,5 +24,6 @@ urlpatterns = [
     path('registration/', views.user_registration, name='registration'),
     path('addContact/', views.add_contact, name='Add Contact'),
     path('addPhone/<int:id>/', views.add_phone_number, name='Add Phone Number'),
+    path('deletePhone/<int:id>/', views.delete_phone_number, name='Delete Phone Number'),
     path('admin/', admin.site.urls),
 ]

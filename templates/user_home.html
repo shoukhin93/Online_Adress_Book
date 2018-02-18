@@ -31,9 +31,9 @@
 
                 <td>
                     {% for phone_number in contact_info.mobilenumber_set.all %}
-                       <br> {{ phone_number.phone_number }}
+                       <br> {{ phone_number.phone_number }} <a href="deletePhone/{{ phone_number.id }}/">delete</a>
                     {% endfor %}
-                    <a href="addPhone/{{ contact_info.id }}/">add</a>
+                    <br><a href="addPhone/{{ contact_info.id }}/">add</a>
                 </td>
 
                 <td>{{ contact_info.address }}</td>
