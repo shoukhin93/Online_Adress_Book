@@ -26,5 +26,7 @@ urlpatterns = [
     path('addPhone/<int:id>/', views.add_phone_number, name='Add Phone Number'),
     path('deletePhone/<int:id>/', views.delete_phone_number, name='Delete Phone Number'),
     path('updatePhone/<int:id>/', views.update_phone_number, name='Update Phone Number'),
+    path('updateContact/<int:id>/', views.update_contact_info, name='Update Contact info'),
+    path('deleteContact/<int:id>/', views.delete_contact_info, name='Delete Contact info'),
     path('admin/', admin.site.urls),
 ]

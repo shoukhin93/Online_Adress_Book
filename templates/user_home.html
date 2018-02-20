@@ -7,7 +7,7 @@
 <body>
 {% if user.is_authenticated %}
     <h2>Welcome {{ user.username }}</h2>
-    <a href="addContact//">add contact</a>
+    <a href="addContact/">add contact</a>
     <a href="logout/">logout</a>
 
     {% if user %}
@@ -20,6 +20,8 @@
             <th>Phone number</th>
             <th>Address</th>
             <th>Date of Birth</th>
+            <th>Update</th>
+            <th>Delete</th>
             </thead>
             <tbody>
 
@@ -31,7 +33,7 @@
 
                 <td>
                     {% for phone_number in contact_info.mobilenumber_set.all %}
-                       <br> {{ phone_number.phone_number }} <a href="deletePhone/{{ phone_number.id }}/">delete</a>
+                        <br> {{ phone_number.phone_number }} <a href="deletePhone/{{ phone_number.id }}/">delete</a>
                         <a href="updatePhone/{{ phone_number.id }}/">update</a>
                     {% endfor %}
                     <br><a href="addPhone/{{ contact_info.id }}/">add</a>
@@ -39,6 +41,8 @@
 
                 <td>{{ contact_info.address }}</td>
                 <td>{{ contact_info.date_of_birth }}</td>
+                <td><a href="updateContact/{{ contact_info.id }}/">update</a></td>
+                <td><a href="deleteContact/{{ contact_info.id }}/">delete</a></td>
 
             {% endfor %}
             </tr>
