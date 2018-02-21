@@ -10,11 +10,88 @@
 
 </head>
 <body>
-<div class="container-fluid">
+
+<!--nav bar starts -->
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="/index/">Home</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="#add_contact">Add Contact</a></li>
+                <li><a href="#saved_contact">Saved Information</a></li>
+            {% endif %}
+        </ul>
+        {% if user.is_authenticated %}
+            <ul class="nav navbar-nav navbar-right">
+            <li><a href="/logout/">logout({{ user.username }})</a></li>
+        {% endif %}
+        </ul>
+    </div>
+</nav>
+<!--nav bar ends -->
+
+<div class="container">
+
     {% if user.is_authenticated %}
-        <h2>Welcome {{ user.username }}</h2>
-        <a href="addContact/">add contact</a>
-        <a href="logout/">logout</a>
+        <div class="row">
+            <h2 align="center">Welcome {{ user.username }},</h2>
+        </div>
+
+        <div class="row" id="add_contact">
+
+            <form method="post" class="form-horizontal" action="/addContact/">
+                {% csrf_token %}
+
+                <div class="form-group">
+
+                    <label class="control-label col-sm-8" for="full_name">Full name : </label>
+                    <div class="col-sm-4">
+                        <input type="text" name="full_name" class="form-control" id="full_name" placeholder="Full Name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-8" for="nick_name">Nick name : </label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="nick_name" name="nick_name" placeholder="Nick Name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-8" for="phone_number">Phone Number : </label>
+                    <div class="col-sm-4">
+                        <input type="text" name="phone_number" class="form-control" id="phone_number"
+                               placeholder="phone_number">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-8" for="address">Address : </label>
+                    <div class="col-sm-4">
+                        <input type="text" name="address" class="form-control" id="address" placeholder="address">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-8" for="date_of_birth">Date of Birth : </label>
+                    <div class="col-sm-4">
+                        <input type="text" name="date_of_birth" class="form-control" id="date_of_birth"
+                               placeholder="date_of_birth">
+                    </div>
+                </div>
+
+                <div class="col-sm-offset-8 col-sm-4">
+                    <input class="btn btn-default" type="submit" value="Add Contact">
+                </div>
+
+            </form>
+        </div>
+
+        <div class="row" id="saved_contact">
+        <h3 align="center">Saved contacts</h3>
 
         {% if user %}
             <br>
@@ -39,21 +116,24 @@
 
                     <td>
                         {% for phone_number in contact_info.mobilenumber_set.all %}
-                            {% if forloop.counter != 1 %} {% comment %}for the first time no need to show extra blank line{% endcomment %}
+                            {% if forloop.counter != 1 %}
+                                {% comment %}for the first time no need to show extra blank line{% endcomment %}
                                 <br>
                             {% endif %}
                             {{ phone_number.phone_number }}
-                            <a href="deletePhone/{{ phone_number.id }}/"><span class="glyphicon glyphicon-trash"></span></a>
-                            <a href="updatePhone/{{ phone_number.id }}/"><span class="glyphicon glyphicon-edit"></span></a>
+                            <a href="/deletePhone/{{ phone_number.id }}/"><span
+                                    class="glyphicon glyphicon-trash"></span></a>
+                            <a href="/updatePhone/{{ phone_number.id }}/"><span
+                                    class="glyphicon glyphicon-edit"></span></a>
                         {% endfor %}
-                        <br><a href="addPhone/{{ contact_info.id }}/">add</a>
+                        <br><a href="/addPhone/{{ contact_info.id }}/"><span class="glyphicon glyphicon-plus"></span></a>
                     </td>
 
                     <td>{{ contact_info.address }}</td>
                     <td>{{ contact_info.date_of_birth }}</td>
-                    <td><a href="updateContact/{{ contact_info.id }}/"><span
+                    <td><a href="/updateContact/{{ contact_info.id }}/"><span
                             class="glyphicon glyphicon-edit"></span></a></td>
-                    <td><a href="deleteContact/{{ contact_info.id }}/"><span
+                    <td><a href="/deleteContact/{{ contact_info.id }}/"><span
                             class="glyphicon glyphicon-trash"></span></a></td>
 
                 {% endfor %}
@@ -63,9 +143,13 @@
         {% endif %}
 
     {% else %}
-        <h2>Please <a href="login/">login</a> or <a href="registration/">register</a></h2>
+        <div class="jumbotron">
+            <h2 align="center">Please <a href="/login/">login</a> or <a href="/registration/">register</a> to continue
+            </h2>
+        </div>
     {% endif %}
 
+    </div>
 </div>
 </body>
 </html>
