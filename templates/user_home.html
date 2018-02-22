@@ -36,7 +36,6 @@
 <!--nav bar ends -->
 
 
-
 <div class="container">
 
     {% if user.is_authenticated %}
@@ -44,26 +43,32 @@
             <h2 align="center">Welcome {{ user.username }},</h2>
         </div>
 
+        <h3 align="right">Add contact by uploading CSV file</h3>
+
+
         <!--upload csv file form starts-->
-        <form action="/uploadCSV/" method="POST" enctype="multipart/form-data" class="form-horizontal">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
-                <div class="col-md-8">
-                    <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+        <div class="row">
+            <form action="/uploadCSV/" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="csv_file" class="control-label col-sm-8">File: </label>
+                    <div class="col-sm-4">
+                        <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-                    <button class="btn btn-primary"><span class="glyphicon glyphicon-upload"
-                                                          style="margin-right:5px;"></span>Upload
-                    </button>
+                <div class="form-group">
+                    <div class="col-sm-offset-8 col-sm-4" style="margin-bottom:10px;">
+                        <button class="btn btn-primary"><span class="glyphicon glyphicon-upload"
+                                                              style="margin-right:5px;"></span>Upload
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
 
         <!--upload csv file form end-->
 
+        <h3 align="right">or fill the form</h3>
 
         <!-- Add contact form start -->
         <div class="row" id="add_contact">
@@ -110,7 +115,7 @@
                 </div>
 
                 <div class="col-sm-offset-8 col-sm-4">
-                    <input class="btn btn-default" type="submit" value="Add Contact">
+                    <input class="btn btn-primary" type="submit" value="Add Contact">
                 </div>
 
             </form>

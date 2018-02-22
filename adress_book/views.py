@@ -8,6 +8,7 @@ from adress_book.models import MobileNumber, ContactInfo
 import csv
 from io import TextIOWrapper
 import io
+import ast
 
 
 # Create your views here.
@@ -170,9 +171,26 @@ def upload_csv(request):
 
         file = TextIOWrapper(request.FILES['csv_file'].file, encoding=request.encoding)
         data = csv.reader(file)
-
         for row in data:
-            print(row[0])
+            full_name = row[0]
+            nick_name = row[1]
+            address = row[2]
+            date_of_birth = row[3]
+            phone_numbers = ast.literal_eval(row[4])  # string into list
+
+            contact_info = ContactInfo(full_name=full_name, nick_name=nick_name, address=address,
+                                       date_of_birth=date_of_birth)
+            contact_info.user_name = request.user
+            contact_info.save()
+            # print(phone_numbers, type(phone_numbers))
+
+            for phone_number in phone_numbers:
+                phone = MobileNumber(phone_number=phone_number)
+
+                phone.phone_id = contact_info
+                # print(phone_number)
+                phone.save()
+
     return HttpResponseRedirect(reverse('index'))
 
 
@@ -180,8 +198,7 @@ def download_csv_file(request, id):
     buffer = io.StringIO()
     wr = csv.writer(buffer, quoting=csv.QUOTE_ALL)
 
-    user = User.objects.get(id=id)
-    contacts = user.contactinfo_set.all()
+    contacts = request.user.contactinfo_set.all()
 
     for contact in contacts:
         phone_numbers = contact.mobilenumber_set.all()
