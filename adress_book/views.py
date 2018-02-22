@@ -5,6 +5,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.models import User
 from adress_book.models import MobileNumber, ContactInfo
+import csv
+from io import TextIOWrapper
+import io
 
 
 # Create your views here.
@@ -160,3 +163,36 @@ def delete_contact_info(request, id):
 
     ContactInfo.objects.get(id=id).delete()
     return HttpResponseRedirect(reverse('index'))
+
+
+def upload_csv(request):
+    if request.POST and request.FILES:
+
+        file = TextIOWrapper(request.FILES['csv_file'].file, encoding=request.encoding)
+        data = csv.reader(file)
+
+        for row in data:
+            print(row[0])
+    return HttpResponseRedirect(reverse('index'))
+
+
+def download_csv_file(request, id):
+    buffer = io.StringIO()
+    wr = csv.writer(buffer, quoting=csv.QUOTE_ALL)
+
+    user = User.objects.get(id=id)
+    contacts = user.contactinfo_set.all()
+
+    for contact in contacts:
+        phone_numbers = contact.mobilenumber_set.all()
+        phone_list = []
+        for phone_number in phone_numbers:
+            phone_list.append(phone_number.phone_number)
+
+        wr.writerow([contact.full_name, contact.nick_name, contact.address, contact.date_of_birth, phone_list])
+
+    buffer.seek(0)
+    response = HttpResponse(buffer, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=contacts.csv'
+
+    return response

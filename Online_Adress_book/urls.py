@@ -29,5 +29,7 @@ urlpatterns = [
     path('updatePhone/<int:id>/', views.update_phone_number, name='Update Phone Number'),
     path('updateContact/<int:id>/', views.update_contact_info, name='Update Contact info'),
     path('deleteContact/<int:id>/', views.delete_contact_info, name='Delete Contact info'),
+    path('uploadCSV/', views.upload_csv, name="upload_csv"),
+    path('downloadCSV/<int:id>/', views.download_csv_file, name="download_csv"),
     path('admin/', admin.site.urls),
 ]

@@ -27,11 +27,15 @@
         {% if user.is_authenticated %}
             <ul class="nav navbar-nav navbar-right">
             <li><a href="/logout/">logout({{ user.username }})</a></li>
+            <li><a href="/downloadCSV/{{ user.id }}">download csv</a></li>
+
         {% endif %}
         </ul>
     </div>
 </nav>
 <!--nav bar ends -->
+
+
 
 <div class="container">
 
@@ -40,6 +44,28 @@
             <h2 align="center">Welcome {{ user.username }},</h2>
         </div>
 
+        <!--upload csv file form starts-->
+        <form action="/uploadCSV/" method="POST" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
+                <div class="col-md-8">
+                    <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+                    <button class="btn btn-primary"><span class="glyphicon glyphicon-upload"
+                                                          style="margin-right:5px;"></span>Upload
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!--upload csv file form end-->
+
+
+        <!-- Add contact form start -->
         <div class="row" id="add_contact">
 
             <form method="post" class="form-horizontal" action="/addContact/">
@@ -90,6 +116,8 @@
             </form>
         </div>
 
+        <!-- Add contact form end -->
+
         <div class="row" id="saved_contact">
         <h3 align="center">Saved contacts</h3>
 
@@ -126,7 +154,8 @@
                             <a href="/updatePhone/{{ phone_number.id }}/"><span
                                     class="glyphicon glyphicon-edit"></span></a>
                         {% endfor %}
-                        <br><a href="/addPhone/{{ contact_info.id }}/"><span class="glyphicon glyphicon-plus"></span></a>
+                        <br><a href="/addPhone/{{ contact_info.id }}/"><span
+                            class="glyphicon glyphicon-plus"></span></a>
                     </td>
 
                     <td>{{ contact_info.address }}</td>
